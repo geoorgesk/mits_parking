@@ -1,0 +1,19 @@
+parking_system/
+│
+├── app.py
+├── models.py
+├── config.py
+├── requirements.txt
+│
+├── templates/
+│   ├── base.html
+│   ├── dashboard.html
+│   ├── entry.html
+│   ├── exit.html
+│   ├── history.html
+│
+└── static/
+    ├── css/
+    │   └── style.css
+    └── js/
+        └── script.js
