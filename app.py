@@ -8,7 +8,6 @@ app.config.from_object(Config)
 
 db.init_app(app)
 
-# Create tables (only runs once)
 with app.app_context():
     db.create_all()
 
@@ -34,11 +33,21 @@ def dashboard():
 @app.route("/entry", methods=["GET", "POST"])
 def entry():
     if request.method == "POST":
-        vehicle_number = request.form["vehicle_number"]
+        vehicle_number = request.form["vehicle_number"].upper()
         role = request.form["role"]
 
-        # Find available slot
-        slot = ParkingSlot.query.filter_by(status="Available").first()
+        # ROLE BASED SLOT ALLOCATION
+        slot = ParkingSlot.query.filter_by(
+            status="Available",
+            reserved_for=role
+        ).first()
+
+        # If no reserved slot available, fallback to General
+        if not slot:
+            slot = ParkingSlot.query.filter_by(
+                status="Available",
+                reserved_for="General"
+            ).first()
 
         if slot:
             slot.status = "Occupied"
@@ -53,7 +62,6 @@ def entry():
             db.session.commit()
 
             return redirect(url_for("dashboard"))
-
         else:
             return "No Slots Available"
 
@@ -64,10 +72,11 @@ def entry():
 @app.route("/exit", methods=["GET", "POST"])
 def exit_vehicle():
     if request.method == "POST":
-        vehicle_number = request.form["vehicle_number"]
+        vehicle_number = request.form["vehicle_number"].upper()
 
         record = ParkingRecord.query.filter_by(
-            vehicle_number=vehicle_number, exit_time=None
+            vehicle_number=vehicle_number,
+            exit_time=None
         ).first()
 
         if record:
@@ -80,7 +89,7 @@ def exit_vehicle():
 
             return redirect(url_for("dashboard"))
         else:
-            return "Vehicle Not Found"
+            return "Vehicle Not Found or Already Exited"
 
     return render_template("exit.html")
 
@@ -88,7 +97,10 @@ def exit_vehicle():
 # ------------------ PARKING HISTORY ------------------
 @app.route("/history")
 def history():
-    records = ParkingRecord.query.order_by(ParkingRecord.entry_time.desc()).all()
+    records = ParkingRecord.query.order_by(
+        ParkingRecord.entry_time.desc()
+    ).all()
+
     return render_template("history.html", records=records)
 
 
