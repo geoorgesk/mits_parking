@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="page-title">Dashboard</h1>
+
+<div class="card-container">
+
+    <div class="card">
+        <h2>Total Slots</h2>
+        <p>{{ total_slots }}</p>
+    </div>
+
+    <div class="card available">
+        <h2>Available Slots</h2>
+        <p>{{ available_slots }}</p>
+    </div>
+
+    <div class="card occupied">
+        <h2>Occupied Slots</h2>
+        <p>{{ occupied_slots }}</p>
+    </div>
+
+    <div class="card active">
+        <h2>Vehicles Parked</h2>
+        <p>{{ active_vehicles }}</p>
+    </div>
+
+</div>
+
+{% endblock %}

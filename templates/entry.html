@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="page-title">Vehicle Entry</h1>
+
+<div class="form-container">
+    <form method="POST">
+
+        <label>Vehicle Number</label>
+        <input type="text" name="vehicle_number" placeholder="Enter Vehicle Number" required>
+
+        <label>Role</label>
+        <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="Student">Student</option>
+            <option value="Faculty">Faculty</option>
+            <option value="HOD">HOD</option>
+        </select>
+
+        <button type="submit" class="btn-primary">Assign Slot</button>
+
+    </form>
+</div>
+
+{% endblock %}

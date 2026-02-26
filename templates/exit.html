@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="page-title">Vehicle Exit</h1>
+
+<div class="form-container">
+    <form method="POST">
+
+        <label>Vehicle Number</label>
+        <input type="text" name="vehicle_number" placeholder="Enter Vehicle Number" required>
+
+        <button type="submit" class="btn-danger">Mark Exit</button>
+
+    </form>
+</div>
+
+{% endblock %}
